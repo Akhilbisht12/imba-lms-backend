@@ -156,7 +156,6 @@ app.use(teacherRoutes);
 app.use(homeRoutes);
 app.use(courseRoutes);
 app.use(stripeRoute);
-
 if (process.env.NODE_ENV !== 'test') {
   mongoose
     .connect(MONGODB_URI,{ useUnifiedTopology: true,useNewUrlParser: true })

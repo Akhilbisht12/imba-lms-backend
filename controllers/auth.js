@@ -7,11 +7,15 @@ const sendgridTransport=require('nodemailer-sendgrid-transport');
 const {validationResult}=require('express-validator')
 const api_key = require('../config/config');
 
-const transporter =nodemailer.createTransport(sendgridTransport({
-    auth:{
-        api_key:api_key.Sendgrid
-    }
-}))
+let transporter = nodemailer.createTransport({
+    host: api_key.smtp_host,
+    port: api_key.smtp_pass,
+    secure: true, // true for 465, false for other ports
+    auth: {
+      user: api_key.smtp_user, // generated ethereal user
+      pass: api_key.smtp_pass, // generated ethereal password
+    },
+  });
 
 
 exports.signup = (req,res)=>{
@@ -60,7 +64,7 @@ exports.signup = (req,res)=>{
         }).then(res =>{
             transporter.sendMail({
                 to:email,
-                from:"ayush1911052@akgec.ac.in",
+                from:"akhil@upgrate.in",
                 subject:"OTP Verification",
                 html:` '<h1>Please Verify your account using this OTP: !</h1>
                         <p>OTP:${otp}</p>'`
@@ -176,7 +180,7 @@ exports.resendOtp = (req,res,next)=>{
     .then( ()=>{
         transporter.sendMail({
             to:email,
-            from:"ayush1911052@akgec.ac.in",
+            from:"akhil@upgrate.in",
             subject:"OTP Verification",
             html:` '<h1>Please Verify your account using this OTP: !</h1>
                     <p>OTP:${otp}</p>'`
@@ -232,7 +236,7 @@ exports.login = (req,res,next)=>{
                         .then(()=>{
                             transporter.sendMail({
                                 to:email,
-                                from:"ayush1911052@akgec.ac.in",
+                                from:"akhil@upgrate.in",
                                 subject:"OTP Verification",
                                 html:` '<h1>Please Verify your account using this OTP: !</h1>
                                         <p>OTP:${otp}</p>'`
@@ -251,7 +255,7 @@ exports.login = (req,res,next)=>{
                         .then(()=>{
                             transporter.sendMail({
                                 to:email,
-                                from:"ayush1911052@akgec.ac.in",
+                                from:"akhil@upgrate.in",
                                 subject:"OTP Verification",
                                 html:` '<h1>Please Verify your account using this OTP: !</h1>
                                         <p>OTP:${otp}</p>'`
@@ -335,7 +339,7 @@ exports.resetPassword = (req,res,next)=>{
         .then(result=>{
             transporter.sendMail({
                 to:email,
-                from:"ayush1911052@akgec.ac.in",
+                from:"akhil@upgrate.in",
                 subject:"Reset Password for shelp",
                 html:` '<h1>this is your otp to reset your password: ${otp}</h1>'`
             })
